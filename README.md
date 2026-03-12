@@ -1,33 +1,58 @@
-# TenantFlow 👋
+# TenantFlow
 
 ![.NET](https://img.shields.io/badge/.NET-8-blue?style=for-the-badge&logo=dotnet&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13-blue?style=for-the-badge&logo=postgresql&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**Multi-tenant SaaS platform backend** built with .NET Core, demonstrating clean architecture, EF Core, and subscription management.
+TenantFlow is a backend platform for managing contracts between businesses and their clients, built as a multi-tenant SaaS system. Each tenant operates in full data isolation, with its own users, clients, and contracts.
+
+The project focuses on real-world backend concerns: tenant-scoped data access, role-based authorization, contract lifecycle management, and a clean, maintainable architecture designed to scale.
 
 ---
 
-## Features
+## Why This Project
 
-- Multi-tenant architecture with `TenantId` isolation
-- Clean architecture (Domain, Application, Infrastructure, API)
-- Entity Framework Core for persistence
-- Dapper for optimized queries
-- Subscription management per tenant
-- Basic authentication and role-based authorization
+Most contract management tools are either too generic or tightly coupled to a single business. TenantFlow explores what it takes to build a backend that serves multiple independent businesses on shared infrastructure — safely and reliably.
+
+Key engineering decisions:
+- **Tenant isolation via `TenantId` scoping** — no cross-tenant data leakage by design
+- **Clean Architecture** — domain logic stays independent of frameworks and infrastructure
+- **EF Core + Dapper hybrid** — EF Core for writes and migrations, Dapper for optimized read queries
+- **Role-based access per tenant** — users have roles scoped to their tenant, not globally
+
+---
+
+## Core Features
+
+- Multi-tenant architecture with strict data isolation
+- Contract lifecycle management (draft → active → expired)
+- Role-based authorization per tenant (Admin, Member)
+- JWT authentication
+- FluentValidation for input validation
+- Swagger for API exploration
 
 ---
 
 ## Tech Stack
 
 - C# / .NET 8
+- ASP.NET Core Web API
 - Entity Framework Core
 - Dapper
 - PostgreSQL
-- ASP.NET Core Web API
-- Swagger for API documentation
-- FluentValidation 
+- FluentValidation
+- Swagger / Scalar
+
+---
+
+## Project Structure
+```text
+TenantFlow.sln
+├── TenantFlow.Api             # HTTP layer: controllers, middleware, DI setup
+├── TenantFlow.Application     # Use cases, DTOs, interfaces
+├── TenantFlow.Domain          # Entities, value objects, domain exceptions
+└── TenantFlow.Infrastructure  # EF Core, repositories, database migrations
+```
 
 ---
 
@@ -36,50 +61,26 @@
 1. Clone the repo:
 ```bash
 git clone https://github.com/migbrit/TenantFlow.git
-```
-
-2. Navigate to the API project:
-```bash
 cd TenantFlow/TenantFlow.Api
 ```
 
-3. Configure your connection string in appsettings.json:
-```bash
+2. Configure your connection string in `appsettings.json`:
+```json
 "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Database=TenantFlowDb;Username=postgres;Password=YourPassword"
+  "DefaultConnection": "Host=localhost;Database=TenantFlowDb;Username=postgres;Password=YourPassword"
 }
 ```
 
-4. Run the initial migration to create the database:
+3. Run migrations:
 ```bash
 dotnet ef database update -p ../TenantFlow.Infrastructure -s .
 ```
 
-5. Run the API:
+4. Run the API:
 ```bash
 dotnet run
 ```
 
-6. Open Swagger at https://localhost:{PORT}/swagger to explore endpoints.
+5. Open Swagger at `https://localhost:{PORT}/swagger`
 
-## Project Structure
-
-```text
-TenantFlow.sln
-├── TenantFlow.Api            # ASP.NET Core Web API
-├── TenantFlow.Application    # Application layer: services, use-cases
-├── TenantFlow.Domain         # Domain layer: entities, value objects, interfaces
-└── TenantFlow.Infrastructure # EF Core DbContext, repositories
-```
-
-## Contributing
-
-Contributions are welcome! Open issues or submit PRs.
-Please follow clean architecture principles when extending functionality.
-
-
-
-## Notes
-
-This project is designed as a demonstration of clean architecture and multi-tenant SaaS patterns.
-It’s a solid starting point for learning, building more complex SaaS systems, or showcasing your backend skills in a professional portfolio.
+---
