@@ -9,4 +9,9 @@ public abstract class AuditableEntity : BaseEntity
     {
         CreatedAt = DateTime.UtcNow;
     }
+
+    public void SetUpdatedAt()
+    {
+        UpdatedAt = DateTime.UtcNow;
+    }
 }
