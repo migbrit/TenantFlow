@@ -2,8 +2,8 @@
 
 public enum ContractStatus
 {
-    Active = 1,
-    Inactive = 2,
-    Pending = 3,
-    Suspended = 4,
+    Pending = 1,
+    Active = 2,
+    Suspended = 3,
+    Cancelled = 4
 }

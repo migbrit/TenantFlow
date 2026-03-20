@@ -75,10 +75,10 @@ public class Contract : AuditableEntity
 
     public void Cancel()
     {
-        if (Status == ContractStatus.Inactive)
+        if (Status == ContractStatus.Cancelled)
             throw new DomainException("Contract is already cancelled.");
 
-        Status = ContractStatus.Inactive;
+        Status = ContractStatus.Cancelled;
     }
 }
 
