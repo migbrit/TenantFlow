@@ -41,6 +41,9 @@ public class Contract : AuditableEntity
         if (endDate <= startDate)
             throw new DomainException("EndDate must be after StartDate");
 
+        if (value <= 0)
+            throw new DomainException("Value must be greater than zero.");
+
         return new Contract
         {
             TenantId = tenantId,
